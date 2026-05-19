@@ -1,0 +1,62 @@
+[
+  {
+    "id": "qa-android-samsung-chrome-kz",
+    "name": "QA Android Samsung / Chrome / KZ",
+    "targetUrl": "https://magnific.com/",
+    "deviceLabel": "Samsung Galaxy S23",
+    "osLabel": "Android 14",
+    "browserLabel": "Chrome 145",
+    "userAgent": "Mozilla/5.0 (Linux; Android 14; SM-S911B) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/145.0.0.0 Mobile Safari/537.36",
+    "viewport": { "width": 390, "height": 844 },
+    "deviceScaleFactor": 3,
+    "isMobile": true,
+    "hasTouch": true,
+    "locale": "ru-RU",
+    "timezoneId": "Asia/Almaty",
+    "extraHTTPHeaders": {
+      "Accept-Language": "ru-RU,ru;q=0.9,en-US;q=0.8,en;q=0.7",
+      "X-QA-Profile": "qa-android-samsung-chrome-kz"
+    },
+    "proxy": null
+  },
+  {
+    "id": "qa-iphone-safari-kz",
+    "name": "QA iPhone / Safari / KZ",
+    "targetUrl": "https://magnific.com/",
+    "deviceLabel": "iPhone 15",
+    "osLabel": "iOS 17",
+    "browserLabel": "Safari 17",
+    "userAgent": "Mozilla/5.0 (iPhone; CPU iPhone OS 17_0 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/17.0 Mobile/15E148 Safari/604.1",
+    "viewport": { "width": 393, "height": 852 },
+    "deviceScaleFactor": 3,
+    "isMobile": true,
+    "hasTouch": true,
+    "locale": "ru-RU",
+    "timezoneId": "Asia/Almaty",
+    "extraHTTPHeaders": {
+      "Accept-Language": "ru-RU,ru;q=0.9",
+      "X-QA-Profile": "qa-iphone-safari-kz"
+    },
+    "proxy": null
+  },
+  {
+    "id": "qa-desktop-chrome-kz",
+    "name": "QA Desktop / Chrome / KZ",
+    "targetUrl": "https://magnific.com/",
+    "deviceLabel": "Desktop",
+    "osLabel": "Windows 11",
+    "browserLabel": "Chrome 145",
+    "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/145.0.0.0 Safari/537.36",
+    "viewport": { "width": 1440, "height": 900 },
+    "deviceScaleFactor": 1,
+    "isMobile": false,
+    "hasTouch": false,
+    "locale": "ru-RU",
+    "timezoneId": "Asia/Almaty",
+    "extraHTTPHeaders": {
+      "Accept-Language": "ru-RU,ru;q=0.9",
+      "X-QA-Profile": "qa-desktop-chrome-kz"
+    },
+    "proxy": null
+  }
+]

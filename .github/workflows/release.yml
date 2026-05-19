@@ -1,0 +1,59 @@
+name: Release
+
+on:
+  push:
+    tags:
+      - 'v*'
+
+permissions:
+  contents: write
+
+jobs:
+  build-mac:
+    runs-on: macos-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+          cache: npm
+
+      - run: npm install
+      - run: npx playwright install chromium
+      - run: npm run package:mac -w qa-desktop-agent
+
+      - uses: actions/upload-artifact@v4
+        with:
+          name: mac-installers
+          path: desktop-agent/release/*
+
+  build-win:
+    runs-on: windows-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+          cache: npm
+
+      - run: npm install
+      - run: npx playwright install chromium
+      - run: npm run package:win -w qa-desktop-agent
+
+      - uses: actions/upload-artifact@v4
+        with:
+          name: win-installers
+          path: desktop-agent/release/*
+
+  github-release:
+    needs: [build-mac, build-win]
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/download-artifact@v4
+        with:
+          path: artifacts
+
+      - uses: softprops/action-gh-release@v2
+        with:
+          files: artifacts/**/*
+          generate_release_notes: true

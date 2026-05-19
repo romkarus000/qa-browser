@@ -1,0 +1,30 @@
+{
+  "name": "qa-desktop-agent",
+  "version": "1.0.0",
+  "description": "Local desktop agent for launching Chrome with QA profiles",
+  "main": "dist/main/index.js",
+  "author": "QA Team",
+  "license": "UNLICENSED",
+  "private": true,
+  "scripts": {
+    "dev": "npm run build && electron .",
+    "build": "tsc",
+    "test": "npm run build && node --test dist/server/origin.test.js dist/browser/validateProfile.test.js",
+    "icons": "node scripts/generate-icons.js",
+    "prepare:browsers": "node scripts/prepare-browsers.js",
+    "prepare:release": "npm run icons && npm run prepare:browsers && npm run build",
+    "package:mac": "npm run prepare:release && electron-builder --mac --config electron-builder.yml",
+    "package:win": "npm run prepare:release && electron-builder --win --config electron-builder.yml",
+    "postinstall": "playwright install chromium || true"
+  },
+  "dependencies": {
+    "fastify": "^5.2.1",
+    "playwright": "^1.52.0"
+  },
+  "devDependencies": {
+    "@types/node": "^22.15.21",
+    "electron": "^36.3.1",
+    "electron-builder": "^26.0.12",
+    "typescript": "^5.8.3"
+  }
+}

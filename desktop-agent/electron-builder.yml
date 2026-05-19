@@ -1,0 +1,56 @@
+appId: com.magnific.qa-desktop-agent
+productName: Magnific QA Desktop Agent
+artifactName: '${productName}-${version}-${os}-${arch}.${ext}'
+copyright: Copyright © QA Team
+
+directories:
+  output: release
+  buildResources: build
+
+files:
+  - dist/**/*
+  - package.json
+
+asar: true
+asarUnpack:
+  - "**/*.node"
+
+extraResources:
+  - from: build/playwright-browsers
+    to: playwright-browsers
+    filter:
+      - "**/*"
+  - from: build/icon.png
+    to: tray-icon.png
+
+mac:
+  category: public.app-category.developer-tools
+  icon: build/icon.png
+  hardenedRuntime: true
+  gatekeeperAssess: false
+  entitlements: build/entitlements.mac.plist
+  entitlementsInherit: build/entitlements.mac.plist
+  target:
+    - target: dmg
+      arch:
+        - arm64
+        - x64
+
+dmg:
+  title: QA Desktop Agent
+
+win:
+  icon: build/icon.png
+  target:
+    - target: nsis
+      arch:
+        - x64
+
+nsis:
+  oneClick: false
+  allowToChangeInstallationDirectory: true
+  createDesktopShortcut: true
+  runAfterFinish: true
+  shortcutName: QA Desktop Agent
+
+publish: null

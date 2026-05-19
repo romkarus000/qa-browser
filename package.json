@@ -1,0 +1,30 @@
+{
+  "name": "magnific-qa-browser",
+  "version": "1.0.0",
+  "description": "Magnific QA local browser profiles (desktop agent + web UI)",
+  "private": true,
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/magnific-com/magnific-qa-browser.git"
+  },
+  "workspaces": [
+    "packages/*",
+    "desktop-agent",
+    "web-ui"
+  ],
+  "scripts": {
+    "build": "npm run build -w @qa/desktop-agent-client && npm run build -w qa-desktop-agent && npm run build -w qa-web-ui",
+    "build:agent": "npm run build -w qa-desktop-agent",
+    "build:client": "npm run build -w @qa/desktop-agent-client",
+    "build:ui": "npm run build -w qa-web-ui",
+    "dev:agent": "npm run dev -w qa-desktop-agent",
+    "dev:ui": "npm run dev -w qa-web-ui",
+    "test": "npm run test -w qa-desktop-agent",
+    "package:mac": "npm run package:mac -w qa-desktop-agent",
+    "package:win": "npm run package:win -w qa-desktop-agent",
+    "prepare:release": "npm run prepare:release -w qa-desktop-agent"
+  },
+  "engines": {
+    "node": ">=20"
+  }
+}

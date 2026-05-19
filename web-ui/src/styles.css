@@ -1,0 +1,206 @@
+:root {
+  --bg: #0b1220;
+  --card: #141c2e;
+  --border: #243049;
+  --text: #e8eef8;
+  --muted: #94a3b8;
+  --accent: #38bdf8;
+  --ok: #4ade80;
+  --warn: #fbbf24;
+  --danger: #f87171;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  font-family: 'Segoe UI', system-ui, sans-serif;
+  background: var(--bg);
+  color: var(--text);
+  line-height: 1.5;
+}
+
+.container {
+  max-width: 960px;
+  margin: 0 auto;
+  padding: 2rem 1.5rem;
+}
+
+.hero {
+  margin-bottom: 2rem;
+}
+
+.eyebrow {
+  margin: 0 0 0.35rem;
+  font-size: 0.75rem;
+  font-weight: 600;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--accent);
+}
+
+h1 {
+  margin: 0 0 0.35rem;
+  font-size: 2rem;
+  font-weight: 700;
+}
+
+.subtitle {
+  color: var(--muted);
+  margin: 0;
+  max-width: 42rem;
+}
+
+.subtitle a {
+  color: var(--accent);
+}
+
+.profile-url {
+  font-size: 0.8rem;
+  color: var(--muted);
+  margin: -0.5rem 0 0.75rem;
+  word-break: break-all;
+}
+
+.empty {
+  color: var(--muted);
+  padding: 2rem;
+  text-align: center;
+}
+
+.agent-status {
+  padding: 1rem 1.25rem;
+  border-radius: 10px;
+  border: 1px solid var(--border);
+  background: var(--card);
+  margin-bottom: 2rem;
+}
+
+.agent-status.connected {
+  border-color: #166534;
+}
+
+.agent-status.disconnected {
+  border-color: #7f1d1d;
+}
+
+.agent-status h2 {
+  margin: 0 0 0.5rem;
+  font-size: 1rem;
+}
+
+.status-ok {
+  color: var(--ok);
+}
+
+.status-bad {
+  color: var(--danger);
+}
+
+.install-hint {
+  margin-top: 1rem;
+  padding-top: 1rem;
+  border-top: 1px solid var(--border);
+}
+
+.install-hint p {
+  margin: 0 0 0.75rem;
+  color: var(--muted);
+}
+
+.btn-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+}
+
+button,
+a.btn {
+  appearance: none;
+  border: 1px solid var(--border);
+  background: #1e293b;
+  color: var(--text);
+  padding: 0.45rem 0.85rem;
+  border-radius: 8px;
+  font-size: 0.875rem;
+  cursor: pointer;
+  text-decoration: none;
+  display: inline-block;
+}
+
+button:hover,
+a.btn:hover {
+  border-color: var(--accent);
+}
+
+button.primary {
+  background: #0369a1;
+  border-color: #0284c7;
+}
+
+button:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+a.btn.disabled {
+  opacity: 0.45;
+  pointer-events: none;
+}
+
+.hint {
+  margin-top: 0.75rem;
+  font-size: 0.8rem;
+  color: var(--muted);
+}
+
+.hint code {
+  color: var(--accent);
+}
+
+.profiles {
+  display: grid;
+  gap: 1rem;
+}
+
+.profile-card {
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  padding: 1.25rem;
+}
+
+.profile-card.running {
+  border-color: #166534;
+}
+
+.profile-card h3 {
+  margin: 0 0 0.25rem;
+}
+
+.profile-meta {
+  color: var(--muted);
+  font-size: 0.875rem;
+  margin-bottom: 1rem;
+}
+
+.profile-status {
+  font-size: 0.875rem;
+  margin-bottom: 0.75rem;
+}
+
+.profile-status.running {
+  color: var(--ok);
+}
+
+.message {
+  margin-top: 0.75rem;
+  font-size: 0.875rem;
+  color: var(--muted);
+}
+
+.message.error {
+  color: var(--danger);
+}
