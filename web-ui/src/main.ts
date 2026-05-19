@@ -47,7 +47,7 @@ function renderAgentStatus(): string {
       <div class="install-hint">
         <p>Установите QA Desktop Agent на этот компьютер и оставьте его запущенным (иконка в системном трее).</p>
         <div class="btn-row">
-          <a class="btn ${downloads.mac ? '' : 'disabled'}" href="${macHref}" ${downloads.mac ? 'download' : 'aria-disabled="true"'}>Download for macOS</a>
+          <a class="btn ${downloads.mac ? '' : 'disabled'}" href="${macHref}" ${downloads.mac ? 'download' : 'aria-disabled="true"'}>Download for macOS (zip)</a>
           <a class="btn ${downloads.windows ? '' : 'disabled'}" href="${winHref}" ${downloads.windows ? 'download' : 'aria-disabled="true"'}>Download for Windows</a>
           <button type="button" id="btn-recheck">Проверить снова</button>
         </div>

@@ -31,13 +31,10 @@ mac:
   entitlements: build/entitlements.mac.plist
   entitlementsInherit: build/entitlements.mac.plist
   target:
-    - target: dmg
+    - target: zip
       arch:
         - arm64
         - x64
-
-dmg:
-  title: QA Desktop Agent
 
 win:
   icon: build/icon.png
