@@ -38,7 +38,17 @@ VITE_QA_AGENT_RELEASE_BASE=https://github.com/romkarus000/qa-browser/releases/do
 
 ## 2. Деплой Web UI → qa.piemnaya.ru
 
-Залейте содержимое `web-ui/dist/` на **https://qa.piemnaya.ru**.
+На сервере (46.149.70.15):
+
+```bash
+./scripts/deploy-web.sh
+```
+
+Или вручную: `npm run build -w qa-web-ui` → `rsync` в `/var/www/qa-browser/`.
+
+Nginx: [`deploy/nginx/qa-browser.conf`](deploy/nginx/qa-browser.conf)
+
+Панель: **https://qa.piemnaya.ru**
 
 Важно: панель должна открываться именно с этого домена — иначе агент отклонит запрос (CORS).
 
