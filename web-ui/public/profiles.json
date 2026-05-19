@@ -42,7 +42,7 @@
   {
     "id": "qa-desktop-chrome-kz",
     "name": "QA Desktop / Chrome / KZ",
-    "targetUrl": "https://magnific.com/",
+    "targetUrl": "https://www.magnific.com/log-in?client_id=magnific&lang=en",
     "deviceLabel": "Desktop",
     "osLabel": "Windows 11",
     "browserLabel": "Chrome 145",
@@ -54,8 +54,7 @@
     "locale": "ru-RU",
     "timezoneId": "Asia/Almaty",
     "extraHTTPHeaders": {
-      "Accept-Language": "ru-RU,ru;q=0.9",
-      "X-QA-Profile": "qa-desktop-chrome-kz"
+      "Accept-Language": "ru-RU,ru;q=0.9,en-US;q=0.8,en;q=0.7"
     },
     "proxy": null
   }

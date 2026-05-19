@@ -10,6 +10,50 @@ function createSessionId(): string {
   return `sess_${Date.now()}`;
 }
 
+/** Helps reCAPTCHA / OAuth work in Playwright-launched Chrome (not detected as automation). */
+const CHROME_LAUNCH_ARGS = [
+  '--disable-blink-features=AutomationControlled',
+  '--no-first-run',
+  '--no-default-browser-check',
+];
+
+type PersistentContextOptions = NonNullable<
+  Parameters<typeof chromium.launchPersistentContext>[1]
+>;
+
+function buildLaunchOptions(profile: QAProfile): PersistentContextOptions {
+  return {
+    headless: false,
+    channel: 'chrome',
+    ignoreDefaultArgs: ['--enable-automation'],
+    args: CHROME_LAUNCH_ARGS,
+    userAgent: profile.userAgent,
+    viewport: {
+      width: profile.viewport.width,
+      height: profile.viewport.height,
+    },
+    deviceScaleFactor: profile.deviceScaleFactor,
+    isMobile: profile.isMobile,
+    hasTouch: profile.hasTouch,
+    locale: profile.locale,
+    timezoneId: profile.timezoneId,
+    extraHTTPHeaders: profile.extraHTTPHeaders,
+    proxy: profile.proxy
+      ? {
+          server: profile.proxy.server,
+          username: profile.proxy.username,
+          password: profile.proxy.password,
+        }
+      : undefined,
+  };
+}
+
+async function applyStealthScripts(context: Awaited<ReturnType<typeof chromium.launchPersistentContext>>) {
+  await context.addInitScript(() => {
+    Object.defineProperty(navigator, 'webdriver', { get: () => undefined });
+  });
+}
+
 export async function launchProfile(profile: QAProfile) {
   if (isProfileRunning(profile.id)) {
     throw profileAlreadyRunningError(profile.id);
@@ -26,28 +70,7 @@ export async function launchProfile(profile: QAProfile) {
   });
 
   try {
-    const launchOptions: Parameters<typeof chromium.launchPersistentContext>[1] = {
-      headless: false,
-      channel: 'chrome',
-      userAgent: profile.userAgent,
-      viewport: {
-        width: profile.viewport.width,
-        height: profile.viewport.height,
-      },
-      deviceScaleFactor: profile.deviceScaleFactor,
-      isMobile: profile.isMobile,
-      hasTouch: profile.hasTouch,
-      locale: profile.locale,
-      timezoneId: profile.timezoneId,
-      extraHTTPHeaders: profile.extraHTTPHeaders,
-      proxy: profile.proxy
-        ? {
-            server: profile.proxy.server,
-            username: profile.proxy.username,
-            password: profile.proxy.password,
-          }
-        : undefined,
-    };
+    const launchOptions = buildLaunchOptions(profile);
 
     let context;
     try {
@@ -59,6 +82,8 @@ export async function launchProfile(profile: QAProfile) {
       const { channel: _channel, ...fallbackOptions } = launchOptions;
       context = await chromium.launchPersistentContext(userDataDir, fallbackOptions);
     }
+
+    await applyStealthScripts(context);
 
     const pages = context.pages();
     const page = pages.length > 0 ? pages[0] : await context.newPage();

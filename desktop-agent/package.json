@@ -1,6 +1,6 @@
 {
   "name": "qa-desktop-agent",
-  "version": "1.0.0",
+  "version": "1.0.6",
   "description": "Local desktop agent for launching Chrome with QA profiles",
   "main": "dist/main/index.js",
   "author": "QA Team",
