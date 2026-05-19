@@ -18,6 +18,6 @@ export const AGENT_DOWNLOADS: AgentDownloadUrls = {
     fromRelease('Magnific.QA.Desktop.Agent-1.0.0-mac-x64.zip'),
   windows:
     (import.meta.env.VITE_QA_AGENT_DOWNLOAD_WINDOWS as string | undefined) ||
-    fromRelease('Magnific-QA-Desktop-Agent-1.0.0-win-x64.exe') ||
+    fromRelease('Magnific.QA.Desktop.Agent-1.0.0-win-x64.exe') ||
     fromRelease('Magnific QA Desktop Agent-1.0.0-win-x64.exe'),
 };
