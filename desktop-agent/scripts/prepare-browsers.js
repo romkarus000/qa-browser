@@ -14,40 +14,57 @@ function rm(dir) {
   if (fs.existsSync(dir)) fs.rmSync(dir, { recursive: true, force: true });
 }
 
-function copyDir(src, dest) {
-  fs.mkdirSync(dest, { recursive: true });
-  for (const entry of fs.readdirSync(src, { withFileTypes: true })) {
-    const from = path.join(src, entry.name);
-    const to = path.join(dest, entry.name);
-    if (entry.isDirectory()) copyDir(from, to);
-    else fs.copyFileSync(from, to);
+function playwrightCacheDirs() {
+  return [
+    path.join(os.homedir(), 'Library', 'Caches', 'ms-playwright'),
+    path.join(os.homedir(), '.cache', 'ms-playwright'),
+  ];
+}
+
+function findChromiumRoot(executable) {
+  let dir = path.dirname(executable);
+  for (let i = 0; i < 12; i++) {
+    if (path.basename(dir).startsWith('chromium-')) return dir;
+    const parent = path.dirname(dir);
+    if (parent === dir) break;
+    dir = parent;
   }
+  return null;
+}
+
+function resolveChromiumSource() {
+  const executable = chromium.executablePath();
+  const fromExe = findChromiumRoot(executable);
+  if (fromExe && fs.existsSync(fromExe)) return fromExe;
+
+  for (const cacheRoot of playwrightCacheDirs()) {
+    if (!fs.existsSync(cacheRoot)) continue;
+    const match = fs.readdirSync(cacheRoot).find((name) => name.startsWith('chromium-'));
+    if (match) {
+      const candidate = path.join(cacheRoot, match);
+      if (fs.existsSync(candidate)) return candidate;
+    }
+  }
+
+  return null;
 }
 
 function main() {
-  const executable = chromium.executablePath();
-  // .../chromium-XXXX/chrome-linux/chrome -> browser root is two levels up from chrome binary parent
-  const browserDir = path.dirname(path.dirname(executable));
-  const cacheRoot = path.join(os.homedir(), '.cache', 'ms-playwright');
-  const folderName = path.basename(browserDir);
-
-  let source = browserDir;
-  if (!fs.existsSync(source) && fs.existsSync(cacheRoot)) {
-    const match = fs
-      .readdirSync(cacheRoot)
-      .find((name) => name.startsWith('chromium-'));
-    if (match) source = path.join(cacheRoot, match);
-  }
-
-  if (!fs.existsSync(source)) {
-    console.error('Playwright Chromium not found. Run: npx playwright install chromium');
+  const source = resolveChromiumSource();
+  if (!source) {
+    console.error('Playwright Chromium not found. Run: npm exec -w qa-desktop-agent -- playwright install chromium');
     process.exit(1);
   }
 
+  const folderName = path.basename(source);
+  const dest = path.join(TARGET, folderName);
+
   rm(TARGET);
   fs.mkdirSync(TARGET, { recursive: true });
-  copyDir(source, path.join(TARGET, folderName));
-  console.log(`Prepared browsers: ${path.join(TARGET, folderName)}`);
+
+  // cpSync handles macOS .app bundles and symlinks (copyFileSync does not)
+  fs.cpSync(source, dest, { recursive: true, dereference: true, force: true });
+  console.log(`Prepared browsers: ${dest}`);
 }
 
 main();
