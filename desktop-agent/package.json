@@ -13,7 +13,8 @@
     "icons": "node scripts/generate-icons.js",
     "prepare:browsers": "node scripts/prepare-browsers.js",
     "prepare:release": "npm run icons && npm run prepare:browsers && npm run build",
-    "package:mac": "npm run prepare:release && electron-builder --mac --config electron-builder.yml --publish never",
+    "prepare:release:mac": "npm run icons && npm run build",
+    "package:mac": "npm run prepare:release:mac && electron-builder --mac --config electron-builder.yml --publish never",
     "package:win": "npm run prepare:release && electron-builder --win --config electron-builder.yml --publish never",
     "postinstall": "playwright install chromium || true"
   },
