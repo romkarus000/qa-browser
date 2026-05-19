@@ -15,11 +15,9 @@ asar: true
 asarUnpack:
   - "**/*.node"
 
-extraFiles:
+extraResources:
   - from: build/INSTALL-MAC.txt
     to: INSTALL-MAC.txt
-
-extraResources:
   - from: build/playwright-browsers
     to: playwright-browsers
     filter:
