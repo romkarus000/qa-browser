@@ -10,14 +10,14 @@ export const CONFIG_PATH = path.join(AGENT_HOME, 'config.json');
 export const LOGS_DIR = path.join(AGENT_HOME, 'logs');
 export const PROFILES_DIR = path.join(AGENT_HOME, 'profiles');
 
+/** Web UI origin — only this site may call the local agent API */
 const DEFAULT_ORIGINS = [
-  'https://magnific.com',
-  'https://www.magnific.com',
+  'https://qa.piemnaya.ru',
   'http://localhost:5173',
   'http://127.0.0.1:5173',
 ];
 
-const DEFAULT_HOST_SUFFIXES = ['.magnific.com'];
+const DEFAULT_HOST_SUFFIXES = ['.piemnaya.ru'];
 
 function ensureDirs(): void {
   fs.mkdirSync(AGENT_HOME, { recursive: true });
@@ -58,7 +58,7 @@ export function loadConfig(): AgentConfig {
   return {
     authToken: raw.authToken ?? generateToken(),
     allowedOrigins: normalizeOrigins(raw.allowedOrigins),
-    allowedHostSuffixes: normalizeSuffixes(raw.allowedHostSuffixes),
+    allowedHostSuffixes: normalizeSuffixes(raw.allowedHostSuffixes) ?? DEFAULT_HOST_SUFFIXES,
     version: APP_VERSION,
   };
 }

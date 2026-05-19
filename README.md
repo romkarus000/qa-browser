@@ -1,14 +1,14 @@
-# Magnific QA Local Browser
+# QA Browser
 
-Локальный Chrome с QA-профилями для [magnific.com](https://magnific.com).
+Локальный Chrome с QA-профилями для команды Magnific.
 
-| Часть | Описание |
-|-------|----------|
-| **desktop-agent** | Tray-приложение, API `127.0.0.1:43127` |
-| **web-ui** | Страница выбора профилей (деплой на magnific.com) |
-| **packages/agent-client** | SDK для интеграции |
+| Роль | URL |
+|------|-----|
+| **Панель** (Web UI) | [qa.piemnaya.ru](https://qa.piemnaya.ru) |
+| **Тестируемый сайт** (открывается в Chrome) | [magnific.com](https://magnific.com) |
+| **Репозиторий** | [github.com/romkarus000/qa-browser](https://github.com/romkarus000/qa-browser) |
 
-## Быстрый старт (разработка)
+## Разработка
 
 ```bash
 npm install
@@ -18,16 +18,7 @@ npm run dev:ui      # терминал 2 → http://localhost:5173
 
 ## Продакшн
 
-См. **[SETUP.md](SETUP.md)** — Git, релиз, деплой.
+См. **[SETUP.md](SETUP.md)**.
 
-- CORS по умолчанию: `https://magnific.com`, `https://www.magnific.com`, `*.magnific.com`
-- Профили: `web-ui/public/profiles.json`
-
-## Команды
-
-```bash
-npm run build
-npm run test
-npm run package:mac
-npm run package:win
-```
+- CORS агента: `https://qa.piemnaya.ru`, `*.piemnaya.ru`
+- Профили (куда идёт браузер): `web-ui/public/profiles.json` → `https://magnific.com/`

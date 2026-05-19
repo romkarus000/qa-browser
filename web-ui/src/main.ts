@@ -10,7 +10,8 @@ import {
 import { AGENT_DOWNLOADS } from './config';
 import { loadProfiles } from './profiles';
 
-const SITE_URL = import.meta.env.VITE_APP_SITE_URL ?? 'https://magnific.com';
+const QA_UI_URL = import.meta.env.VITE_QA_UI_URL ?? 'https://qa.piemnaya.ru';
+const TARGET_SITE_URL = import.meta.env.VITE_TARGET_SITE_URL ?? 'https://magnific.com';
 const agent = createAgentClient();
 const downloads = resolveDownloadUrls(AGENT_DOWNLOADS);
 
@@ -146,9 +147,13 @@ function render(): void {
   app.innerHTML = `
     <main class="container">
       <header class="hero">
-        <p class="eyebrow">Magnific QA</p>
+        <p class="eyebrow">QA Browser</p>
         <h1>Local Browser Profiles</h1>
-        <p class="subtitle">Запуск Chrome на вашем ПК с профилем устройства для <a href="${SITE_URL}" target="_blank" rel="noopener">magnific.com</a></p>
+        <p class="subtitle">
+          Панель: <a href="${QA_UI_URL}" target="_blank" rel="noopener">qa.piemnaya.ru</a>
+          · тестируемый сайт:
+          <a href="${TARGET_SITE_URL}" target="_blank" rel="noopener">magnific.com</a>
+        </p>
       </header>
       ${renderAgentStatus()}
       <section class="profiles">${list}</section>

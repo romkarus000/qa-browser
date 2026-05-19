@@ -4,6 +4,8 @@ release/
 *.log
 .DS_Store
 .env
-.env.production
+.env.local
+!.env.production.example
+!web-ui/.env.production
 web-ui/dist/
 desktop-agent/build/playwright-browsers/

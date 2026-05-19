@@ -10,10 +10,8 @@
 
 ```json
 {
-  "allowedOrigins": [
-    "https://qa.yourcompany.com"
-  ],
-  "allowedHostSuffixes": [".yourcompany.com"]
+  "allowedOrigins": ["https://qa.piemnaya.ru"],
+  "allowedHostSuffixes": [".piemnaya.ru"]
 }
 ```
 

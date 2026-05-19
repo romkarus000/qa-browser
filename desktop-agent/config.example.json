@@ -1,8 +1,7 @@
 {
   "allowedOrigins": [
-    "https://magnific.com",
-    "https://www.magnific.com",
+    "https://qa.piemnaya.ru",
     "http://localhost:5173"
   ],
-  "allowedHostSuffixes": [".magnific.com"]
+  "allowedHostSuffixes": [".piemnaya.ru"]
 }

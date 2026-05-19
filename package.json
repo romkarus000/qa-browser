@@ -1,11 +1,11 @@
 {
-  "name": "magnific-qa-browser",
+  "name": "qa-browser",
   "version": "1.0.0",
-  "description": "Magnific QA local browser profiles (desktop agent + web UI)",
+  "description": "QA local browser profiles — panel at qa.piemnaya.ru, targets magnific.com",
   "private": true,
   "repository": {
     "type": "git",
-    "url": "https://github.com/magnific-com/magnific-qa-browser.git"
+    "url": "git@github.com:romkarus000/qa-browser.git"
   },
   "workspaces": [
     "packages/*",

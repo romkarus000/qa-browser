@@ -1,70 +1,71 @@
-# Magnific QA Browser — настройка Git и релиза
+# QA Browser — деплой
 
-## 1. Создайте репозиторий на GitHub
+## Репозиторий
 
-Например: `magnific-qa-browser` (private или public).
+```text
+git@github.com:romkarus000/qa-browser.git
+```
 
-## 2. Запушьте этот код
-
-В терминале из папки проекта:
+### Первый push (если ещё не запушено)
 
 ```bash
-cd /path/to/project
-
-git remote add origin git@github.com:ВАШ_АККАУНТ/magnific-qa-browser.git
-# или HTTPS:
-# git remote add origin https://github.com/ВАШ_АККАУНТ/magnific-qa-browser.git
-
+cd /path/to/qa-browser
+git remote add origin git@github.com:romkarus000/qa-browser.git
 git branch -M main
 git push -u origin main
 ```
 
-Если репозиторий уже создан на GitHub с README — сначала:
-
-```bash
-git pull origin main --rebase
-git push -u origin main
-```
-
-## 3. Первый релиз агента (установщики)
+## 1. Релиз Desktop Agent
 
 ```bash
 git tag v1.0.0
 git push origin v1.0.0
 ```
 
-GitHub Actions (`.github/workflows/release.yml`) соберёт `.dmg` и `.exe`.
+GitHub Actions соберёт установщики. Имена файлов:
 
-После релиза обновите `web-ui/.env.production`:
+- `Magnific QA Desktop Agent-1.0.0-mac-arm64.dmg`
+- `Magnific QA Desktop Agent-1.0.0-mac-x64.dmg`
+- `Magnific QA Desktop Agent-1.0.0-win-x64.exe`
+
+В `web-ui/.env.production` уже указано:
 
 ```env
-VITE_QA_AGENT_RELEASE_BASE=https://github.com/ВАШ_АККАУНТ/magnific-qa-browser/releases/download/v1.0.0
+VITE_QA_AGENT_RELEASE_BASE=https://github.com/romkarus000/qa-browser/releases/download/v1.0.0
 ```
 
-Пересоберите Web UI:
+После релиза пересоберите UI: `npm run build -w qa-web-ui`
 
-```bash
-npm run build -w qa-web-ui
+## 2. Деплой Web UI → qa.piemnaya.ru
+
+Залейте содержимое `web-ui/dist/` на **https://qa.piemnaya.ru**.
+
+Важно: панель должна открываться именно с этого домена — иначе агент отклонит запрос (CORS).
+
+## 3. QA на компьютере тестировщика
+
+1. Скачать агент из [GitHub Releases](https://github.com/romkarus000/qa-browser/releases).
+2. Установить, запустить (иконка в трее).
+3. Открыть **https://qa.piemnaya.ru** → статус **Connected**.
+4. **Launch local browser** → откроется Chrome на **magnific.com** с нужным UA/viewport.
+
+## 4. Обновить CORS на уже установленных агентах
+
+Если агент ставили раньше, отредактируйте `~/.qa-desktop-agent/config.json`:
+
+```json
+{
+  "allowedOrigins": ["https://qa.piemnaya.ru"],
+  "allowedHostSuffixes": [".piemnaya.ru"]
+}
 ```
 
-## 4. Деплой Web UI на magnific.com
+Tray → **Restart agent**.
 
-Залейте содержимое `web-ui/dist/` на хостинг **того же домена**, что в CORS:
+## 5. Проверка
 
-- `https://magnific.com` или
-- `https://qa.magnific.com` (тогда suffix `.magnific.com` уже разрешён)
-
-Страница может жить по пути, например: `https://magnific.com/qa-browser/`
-
-## 5. QA на компьютере тестировщика
-
-1. Скачать агент из Releases.
-2. Установить, запустить (трей).
-3. При первом запуске создаётся `~/.qa-desktop-agent/config.json` с **magnific.com** в CORS.
-4. Открыть Web UI → **Connected** → **Launch local browser**.
-
-## 6. Проверка
-
-- Агент: http://127.0.0.1:43127/health
-- Сайт открыт по **HTTPS** с домена magnific.com
-- На машине установлен Google Chrome
+| Проверка | Ожидание |
+|----------|----------|
+| http://127.0.0.1:43127/health | `"status": "ok"` |
+| Панель | https://qa.piemnaya.ru |
+| После Launch | Chrome → magnific.com |
