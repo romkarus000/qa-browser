@@ -21,6 +21,19 @@ type PersistentContextOptions = NonNullable<
   Parameters<typeof chromium.launchPersistentContext>[1]
 >;
 
+/** Playwright sends extraHTTPHeaders on every request; custom headers break third-party CORS. */
+const FORBIDDEN_EXTRA_HEADERS = new Set(['x-qa-profile']);
+
+export function filterExtraHttpHeaders(
+  headers?: Record<string, string>,
+): Record<string, string> | undefined {
+  if (!headers) return undefined;
+  const filtered = Object.fromEntries(
+    Object.entries(headers).filter(([key]) => !FORBIDDEN_EXTRA_HEADERS.has(key.toLowerCase())),
+  );
+  return Object.keys(filtered).length > 0 ? filtered : undefined;
+}
+
 function buildLaunchOptions(profile: QAProfile): PersistentContextOptions {
   return {
     headless: false,
@@ -37,7 +50,7 @@ function buildLaunchOptions(profile: QAProfile): PersistentContextOptions {
     hasTouch: profile.hasTouch,
     locale: profile.locale,
     timezoneId: profile.timezoneId,
-    extraHTTPHeaders: profile.extraHTTPHeaders,
+    extraHTTPHeaders: filterExtraHttpHeaders(profile.extraHTTPHeaders),
     proxy: profile.proxy
       ? {
           server: profile.proxy.server,

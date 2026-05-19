@@ -9,7 +9,7 @@
   "scripts": {
     "dev": "npm run build && electron .",
     "build": "tsc",
-    "test": "npm run build && node --test dist/server/origin.test.js dist/browser/validateProfile.test.js",
+    "test": "npm run build && node --test dist/server/origin.test.js dist/browser/validateProfile.test.js dist/browser/launchProfile.headers.test.js",
     "icons": "node scripts/generate-icons.js",
     "prepare:browsers": "node scripts/prepare-browsers.js",
     "prepare:release": "npm run icons && npm run prepare:browsers && npm run build",

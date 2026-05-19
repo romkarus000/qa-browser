@@ -1,5 +1,6 @@
 import type { QAProfile } from '../shared/types';
 import { validationError } from '../shared/errors';
+import { filterExtraHttpHeaders } from './launchProfile';
 import { normalizeProfileId } from './profileStorage';
 
 const PROXY_SCHEMES = ['http://', 'https://', 'socks5://', 'socks4://'];
@@ -98,7 +99,7 @@ export function validateProfile(input: unknown): QAProfile {
     throw validationError('profile.timezoneId must not be empty');
   }
 
-  const extraHTTPHeaders = validateExtraHeaders(raw.extraHTTPHeaders);
+  const extraHTTPHeaders = filterExtraHttpHeaders(validateExtraHeaders(raw.extraHTTPHeaders));
   const proxy = validateProxy(raw.proxy);
 
   return {
