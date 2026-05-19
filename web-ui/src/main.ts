@@ -1,19 +1,20 @@
 import './styles.css';
 import {
   createAgentClient,
-  resolveDownloadUrls,
   AgentClientError,
+  type AgentDownloadUrls,
   type HealthResponse,
   type BrowserSession,
   type QAProfile,
 } from '@qa/desktop-agent-client';
-import { AGENT_DOWNLOADS } from './config';
+import { fetchReleaseDownloads } from './releases';
 import { loadProfiles } from './profiles';
 
 const QA_UI_URL = import.meta.env.VITE_QA_UI_URL ?? 'https://qa.piemnaya.ru';
 const TARGET_SITE_URL = import.meta.env.VITE_TARGET_SITE_URL ?? 'https://magnific.com';
 const agent = createAgentClient();
-const downloads = resolveDownloadUrls(AGENT_DOWNLOADS);
+
+let agentDownloads: AgentDownloadUrls = {};
 
 const app = document.getElementById('app')!;
 
@@ -38,8 +39,9 @@ function renderAgentStatus(): string {
     `;
   }
 
-  const macHref = downloads.mac ?? '#';
-  const winHref = downloads.windows ?? '#';
+  const macArm = agentDownloads.macArm64 ?? '#';
+  const macIntel = agentDownloads.macX64 ?? '#';
+  const winHref = agentDownloads.windows ?? '#';
 
   return `
     <div class="agent-status disconnected">
@@ -47,11 +49,11 @@ function renderAgentStatus(): string {
       <div class="install-hint">
         <p>Установите QA Desktop Agent на этот компьютер и оставьте его запущенным (иконка в системном трее).</p>
         <div class="btn-row">
-          <a class="btn ${downloads.mac ? '' : 'disabled'}" href="${macHref}" ${downloads.mac ? 'download' : 'aria-disabled="true"'}>Download for macOS (zip)</a>
-          <a class="btn ${downloads.windows ? '' : 'disabled'}" href="${winHref}" ${downloads.windows ? 'download' : 'aria-disabled="true"'}>Download for Windows</a>
+          <a class="btn ${agentDownloads.macArm64 ? '' : 'disabled'}" href="${macArm}" ${agentDownloads.macArm64 ? 'download' : 'aria-disabled="true"'}>macOS (Apple Silicon)</a>
+          <a class="btn ${agentDownloads.macX64 ? '' : 'disabled'}" href="${macIntel}" ${agentDownloads.macX64 ? 'download' : 'aria-disabled="true"'}>macOS (Intel)</a>
+          <a class="btn ${agentDownloads.windows ? '' : 'disabled'}" href="${winHref}" ${agentDownloads.windows ? 'download' : 'aria-disabled="true"'}>Windows</a>
           <button type="button" id="btn-recheck">Проверить снова</button>
         </div>
-        <p class="hint">Ссылки на установщики появятся после первого <a href="https://github.com" target="_blank" rel="noopener">GitHub Release</a> (см. SETUP.md).</p>
       </div>
     </div>
   `;
@@ -169,6 +171,7 @@ async function refresh(): Promise<void> {
 }
 
 async function init(): Promise<void> {
+  agentDownloads = await fetchReleaseDownloads();
   profiles = await loadProfiles();
   await refresh();
   setInterval(() => void refresh(), 8000);

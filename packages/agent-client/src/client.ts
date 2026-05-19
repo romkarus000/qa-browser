@@ -143,10 +143,13 @@ export function resolveDownloadUrls(urls: AgentDownloadUrls): {
   const ua = typeof navigator !== 'undefined' ? navigator.userAgent : '';
   const isMac = /Mac/i.test(ua);
   const isWin = /Win/i.test(ua);
-  const mac =
-    urls.macArm64 && /arm64|Apple Silicon/i.test(ua)
-      ? urls.macArm64
-      : urls.macX64 ?? urls.macArm64;
+  // Intel Macs include "Intel" in UA; Apple Silicon typically does not
+  const isIntelMac = /Intel Mac OS X|Macintosh.*Intel/i.test(ua);
+  const mac = isMac
+    ? isIntelMac
+      ? urls.macX64 ?? urls.macArm64
+      : urls.macArm64 ?? urls.macX64
+    : urls.macArm64 ?? urls.macX64;
   return {
     mac,
     windows: urls.windows,
