@@ -15,6 +15,10 @@ asar: true
 asarUnpack:
   - "**/*.node"
 
+extraFiles:
+  - from: build/INSTALL-MAC.txt
+    to: INSTALL-MAC.txt
+
 extraResources:
   - from: build/playwright-browsers
     to: playwright-browsers
@@ -26,9 +30,12 @@ extraResources:
 mac:
   category: public.app-category.developer-tools
   icon: build/icon.png
-  identity: null
+  # Ad-hoc sign — reduces "app is damaged" after download (still run xattr -cr once)
+  identity: '-'
   hardenedRuntime: false
   gatekeeperAssess: false
+  extendInfo:
+    LSMinimumSystemVersion: '10.15.0'
   target:
     - target: zip
       arch:

@@ -1,0 +1,32 @@
+Установка QA Desktop Agent на macOS (в т.ч. Catalina)
+====================================================
+
+1. Скачайте архив для Intel Mac:
+   Magnific.QA.Desktop.Agent-1.0.0-mac-x64.zip
+   (на Catalina обычно только Intel, не Apple Silicon)
+
+2. Распакуйте ZIP (двойной клик).
+
+3. В Терминале выполните (скопируйте путь к .app):
+
+   xattr -cr ~/Downloads/Magnific\ QA\ Desktop\ Agent.app
+
+   Если приложение уже в Программах:
+
+   xattr -cr /Applications/Magnific\ QA\ Desktop\ Agent.app
+
+4. Запуск:
+   - Правый клик по приложению → «Открыть» → «Открыть»
+   - или: open -a "Magnific QA Desktop Agent"
+
+5. В трее (верхняя строка меню) должна появиться иконка агента.
+
+6. Откройте https://qa.piemnaya.ru — статус Desktop Agent: Connected.
+
+Если сообщение «повреждено» остаётся — вы не сняли quarantine (шаг 3).
+
+Требования:
+- macOS 10.15 Catalina: только сборка mac-x64 + установленный Google Chrome
+- macOS 11+ рекомендуется для стабильной работы
+
+Системные настройки → Защита и безопасность → «Все равно открыть» — если macOS предложит.

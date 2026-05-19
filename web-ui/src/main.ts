@@ -54,6 +54,7 @@ function renderAgentStatus(): string {
           <a class="btn ${agentDownloads.windows ? '' : 'disabled'}" href="${winHref}" ${agentDownloads.windows ? 'download' : 'aria-disabled="true"'}>Windows</a>
           <button type="button" id="btn-recheck">Проверить снова</button>
         </div>
+        <p class="hint">macOS: «повреждено» после загрузки? <a href="/install-mac.html">Инструкция по установке</a></p>
       </div>
     </div>
   `;
